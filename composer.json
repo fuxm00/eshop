@@ -4,7 +4,7 @@
 	"type": "project",
 	"license": ["proprietary"],
 	"require": {
-		"php": ">= 7.4",
+		"php": ">=8.0",
 		"nette/application": "^3.1",
 		"nette/bootstrap": "^3.1",
 		"nette/caching": "^3.1",
@@ -31,7 +31,7 @@
 	"minimum-stability": "stable",
   "config": {
     "platform": {
-      "php": "7.4"
+      "php": "8.0"
     }
   }
 }

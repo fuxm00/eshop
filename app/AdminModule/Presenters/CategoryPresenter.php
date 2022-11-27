@@ -52,7 +52,7 @@ class CategoryPresenter extends BasePresenter{
     }
 
     if (!$this->user->isAllowed($category,'delete')){
-      $this->flashMessage('Tuto kategorii není možné smazat.', 'error');
+      $this->flashMessage('Tuto kategorii není možné smazat. Je možné, že má přiřazené nějaké produkty.', 'error');
       $this->redirect('default');
     }
 

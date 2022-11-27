@@ -10,8 +10,9 @@ use LeanMapper\Entity;
  * @property int $categoryId
  * @property string $title
  * @property string $description
+ * @property Product[] $products m:hasMany
  */
-class Category extends Entity implements \Nette\Security\Resource{
+class Category extends Entity implements \Nette\Security\Resource {
 
   /**
    * @inheritDoc

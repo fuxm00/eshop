@@ -68,4 +68,13 @@ class CategoriesFacade{
     }
   }
 
+    /**
+     * Metoda pro zjištění počtu produktů v kategorii
+     * @param Category $category
+     * @return int
+     */
+    public function findProductsCount(Category $category): int {
+        return $this->categoryRepository->findProductsCount($category);
+    }
+
 }
