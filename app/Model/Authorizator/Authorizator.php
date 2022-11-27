@@ -5,6 +5,7 @@ namespace App\Model\Authorizator;
 use App\Model\Entities\Category;
 use App\Model\Entities\Product;
 use App\Model\Entities\Permission;
+use App\Model\Entities\User;
 use App\Model\Facades\UsersFacade;
 use App\Model\Facades\CategoriesFacade;
 use Nette\Security\Resource;
@@ -27,24 +28,29 @@ class Authorizator extends \Nette\Security\Permission {
    */
   public function isAllowed($role = self::ALL, $resource = self::ALL, $privilege = self::ALL): bool {
     //tady mohou být kontroly pro jednotlivé entity
-    if ($resource instanceof Category){
+    if ($resource instanceof Category) {
       return $this->categoryResourceIsAllowed($role, $resource, $privilege);
     }
 
-    if ($resource instanceof Product){
+    if ($resource instanceof Product) {
       return $this->productResourceIsAllowed($role, $resource, $privilege);
+    }
+
+    if ($resource instanceof User) {
+      return $this->userResourceIsAllowed($role, $resource, $privilege);
     }
 
     return parent::isAllowed($role, $resource, $privilege);
   }
 
   private function categoryResourceIsAllowed($role, Category $resource, $privilege): bool {
+   $isAllowedByRoleAndAction = parent::isAllowed($role, 'Category', $privilege);
     switch ($privilege) {
       case 'delete':
-        return $this->categoriesFacade->findProductsCount($resource) === 0;
+        return $this->categoriesFacade->findProductsCount($resource) === 0 && $isAllowedByRoleAndAction;
     }
 
-    return parent::isAllowed($role, 'Category', $privilege);
+    return $isAllowedByRoleAndAction;
   }
 
   private function productResourceIsAllowed($role, Product $resource, $privilege): bool {
@@ -54,6 +60,14 @@ class Authorizator extends \Nette\Security\Permission {
     }
     return parent::isAllowed($role, 'Product', $privilege);
   }
+
+    private function userResourceIsAllowed($role, User $resource, $privilege): bool {
+        switch ($privilege){
+            case 'delete':
+            //TODO: Může admin vžycky smazat jiného uživatele?
+        }
+        return parent::isAllowed($role, 'User', $privilege);
+    }
 
    /**
        * Authorizator constructor - načte kompletní strukturu oprávnění

@@ -68,6 +68,23 @@ class UsersFacade{
     return (bool)$this->userRepository->persist($user);
   }
 
+  public function findUsersWithoutUser(\Nette\Security\User|User $user): array {
+    $userId = $user instanceof \Nette\Security\User ? $user->getId() : $user->userId;
+    return $this->userRepository->findUsersWithoutUser($userId);
+  }
+
+  public function deleteUser(User $user): bool {
+      try {
+          return (bool)$this->userRepository->delete($user);
+      } catch (\Exception $e) {
+          return false;
+      }
+  }
+
+  public function toggleAdmin(User &$user): void {
+      $this->userRepository->toggleAdmin($user);
+  }
+
   /**
    * Metoda pro nalezení či zaregistrování uživatele podle facebookId, která vrací SimpleIdentity použitelnou pro přihlášení uživatele
    * @param FacebookUser $facebookUser

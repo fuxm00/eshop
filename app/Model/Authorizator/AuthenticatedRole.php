@@ -9,6 +9,8 @@ namespace App\Model\Authorizator;
 class AuthenticatedRole implements \Nette\Security\Role{
   public int $userId;
 
+  const ADMIN_ROLE = 'admin';
+
   /**
    * AuthenticatedRole constructor.
    * @param int $userId
