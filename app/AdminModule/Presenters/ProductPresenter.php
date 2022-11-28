@@ -33,6 +33,12 @@ class ProductPresenter extends BasePresenter {
             $this->flashMessage('Požadovaný produkt nebyl nalezen.', 'error');
             $this->redirect('default');
         }
+
+        if (!$this->user->isAllowed($product,'edit')){
+            $this->flashMessage('Požadovaný produkt nemůžete upravovat.', 'error');
+            $this->redirect('default');
+        }
+
         $form = $this->getComponent('productEditForm');
         $form->setDefaults($product);
         $this->template->product = $product;

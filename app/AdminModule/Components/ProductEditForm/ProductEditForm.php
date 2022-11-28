@@ -53,12 +53,29 @@ class ProductEditForm extends Form {
     private function createSubcomponents(): void {
         $productId = $this->addHidden('productId');
         $this->addText('name','Název produktu')
-            ->setRequired('Musíte zadat název produktu');
+            ->setRequired('Musíte zadat název produktu')
+            ->setMaxLength(100);
+        $this->addText('url','URL produktu')
+            ->setMaxLength(100)
+            ->addFilter(function(string $url){
+                return Nette\Utils\Strings::webalize($url);
+            })
+            ->addRule(function(Nette\Forms\Controls\TextInput $input) use ($productId){
+                try {
+                    $existingProduct = $this->productsFacade->getProductByUrl($input->value);
+                    return $existingProduct->productId==$productId->value;
+                } catch (\Exception $e) {
+                    return true;
+                }
+            },'Zvolená URL je již obsazena jiným produktem');
         $this->addText('price','Cena')
             ->setRequired('Musíte zadat cenu produktu')
             ->addRule(Nette\Forms\Form::FLOAT,'Cena musí být číslo');
         $this->addTextArea('description','Popis produktu')
             ->setRequired(false);
+        $this->addCheckbox('available', 'Nabízeno ke koupi')
+            ->setDefaultValue(true);
+
         $allCategories = [];
         foreach ($this->categoriesFacade->findCategories() as $category) {
             $allCategories[$category->categoryId] = $category->title;
@@ -66,6 +83,29 @@ class ProductEditForm extends Form {
         if (!empty($allCategories)) {
             $this->addCheckboxList('categories','Kategorie', $allCategories);
         }
+
+        #region obrázek
+        $photoUpload = $this->addUpload('photo','Fotka produktu');
+        //pokud není zadané ID produktu, je nahrání fotky povinné
+        $photoUpload //vyžadování nahrání souboru, pokud není známé productId
+        ->addConditionOn($productId, Nette\Forms\Form::EQUAL, '')
+            ->setRequired('Pro uložení nového produktu je nutné nahrát jeho fotku.');
+
+        $photoUpload //limit pro velikost nahrávaného souboru
+        ->addRule(Nette\Forms\Form::MAX_FILE_SIZE, 'Nahraný soubor je příliš velký', 1000000);
+
+        $photoUpload //kontrola typu nahraného souboru, pokud je nahraný
+        ->addCondition(Nette\Forms\Form::FILLED)
+            ->addRule(function(Nette\Forms\Controls\UploadControl $photoUpload) {
+                $uploadedFile = $photoUpload->value;
+                if ($uploadedFile instanceof Nette\Http\FileUpload){
+                    $extension = strtolower($uploadedFile->getImageFileExtension());
+                    return in_array($extension, ['jpg','jpeg','png']);
+                }
+                return false;
+            },'Je nutné nahrát obrázek ve formátu JPEG či PNG.');
+        #endregion obrázek
+
         $this->addSubmit('ok','uložit')
             ->onClick[] = function() {
             $values = $this->getValues('array');
@@ -79,7 +119,7 @@ class ProductEditForm extends Form {
             } else {
                 $product = new Product();
             }
-            $product->assign($values, ['name', 'description', 'price']);
+            $product->assign($values, ['name', 'url', 'description', 'price', 'available']);
             $this->productsFacade->saveProduct($product);
 
             $product->removeAllCategories();
@@ -94,6 +134,15 @@ class ProductEditForm extends Form {
                 }
             }
             $this->productsFacade->saveProduct($product);
+
+            //uložení fotky
+            if (($values['photo'] instanceof Nette\Http\FileUpload) && ($values['photo']->isOk())){
+                try {
+                    $this->productsFacade->saveProductPhoto($values['photo'], $product);
+                } catch (\Exception $e) {
+                    $this->onFailed('Produkt byl uložen, ale nepodařilo se uložit jeho fotku.');
+                }
+            }
 
             $this->setValues(['productId'=>$product->productId]);
             $this->onFinished('Produkt byl uložen.');
@@ -119,6 +168,7 @@ class ProductEditForm extends Form {
             $data = [
                 'productId'=>$data->productId,
                 'name'=>$data->name,
+                'url'=>$data->url,
                 'price'=>$data->price,
                 'description'=>$data->description,
                 'categories'=>$categories

@@ -11,6 +11,9 @@ use LeanMapper\Entity;
  * @property string $name
  * @property string|null $description = null
  * @property float $price
+ * @property string $url
+ * @property bool $available = true
+ * @property string $photoExtension = ''
  * @property Category[] $categories m:hasMany(:category_product::)
  *
  * @method bool removeAllCategories()
