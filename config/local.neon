@@ -15,6 +15,7 @@ parameters:
         appId: 'TODO'
         secret: 'TODO'
 
+
 php:
 	date.timezone: Europe/Prague
 	error_reporting: E_ALL &~E_USER_WARNING
