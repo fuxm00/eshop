@@ -14,7 +14,7 @@ use Nette\Application\UI\Multiplier;
  * @package App\FrontModule\Presenters
  * @property string $category
  */
-class ProductPresenter extends BasePresenter{
+class ProductPresenter extends BasePresenter {
     /** @var ProductsFacade $productsFacade */
     private $productsFacade;
     /** @var ProductCartFormFactory $productCartFormFactory */
@@ -28,10 +28,10 @@ class ProductPresenter extends BasePresenter{
      * @param string $url
      * @throws BadRequestException
      */
-    public function renderShow(string $url):void {
-        try{
+    public function renderShow(string $url): void {
+        try {
             $product = $this->productsFacade->getProductByUrl($url);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             throw new BadRequestException('Produkt nebyl nalezen.');
         }
 
@@ -41,24 +41,24 @@ class ProductPresenter extends BasePresenter{
     /**
      * Akce pro vykreslení přehledu produktů
      */
-    public function renderList():void {
+    public function renderList(): void {
         //TODO tady by mělo přibýt filtrování podle kategorie, stránkování atp.
         $this->template->products = $this->productsFacade->findProducts(['order'=>'name']);
     }
 
-    protected function createComponentProductCartForm():Multiplier {
-        return new Multiplier(function($productId){
+    protected function createComponentProductCartForm(): Multiplier {
+        return new Multiplier(function($productId) {
             $form = $this->productCartFormFactory->create();
             $form->setDefaults(['productId'=>$productId]);
-            $form->onSubmit[]=function(ProductCartForm $form){
-                try{
+            $form->onSubmit[] = function(ProductCartForm $form) {
+                try {
                     $product = $this->productsFacade->getProduct($form->values->productId);
                     //kontrola zakoupitelnosti
-                }catch (\Exception $e){
+                } catch (\Exception $e) {
                     $this->flashMessage('Produkt nejde přidat do košíku','error');
-                    if ($this->isAjax()){
+                    if ($this->isAjax()) {
                         $this->redrawControl('flashes');
-                    }else{
+                    } else {
                         $this->redirect('this');
                     }
                 }
@@ -68,10 +68,10 @@ class ProductPresenter extends BasePresenter{
                 $cart->addToCart($product, (int)$form->values->count);
 
                 $this->flashMessage('Produkt přidán do košíku: '.$product->name);
-                if ($this->isAjax()){
+                if ($this->isAjax()) {
                     $this->redrawControl('flashes');
                     $this->redrawControl('cart');
-                }else{
+                } else {
                     $this->redirect('this');
                 }
             };
@@ -81,11 +81,11 @@ class ProductPresenter extends BasePresenter{
     }
 
     #region injections
-    public function injectProductsFacade(ProductsFacade $productsFacade):void {
+    public function injectProductsFacade(ProductsFacade $productsFacade): void {
         $this->productsFacade=$productsFacade;
     }
 
-    public function injectProductCartFormFactory(ProductCartFormFactory $productCartFormFactory):void {
+    public function injectProductCartFormFactory(ProductCartFormFactory $productCartFormFactory): void {
         $this->productCartFormFactory=$productCartFormFactory;
     }
     #endregion injections

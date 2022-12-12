@@ -2,8 +2,21 @@
 
 namespace App\FrontModule\Presenters;
 
-class HomepagePresenter extends BasePresenter{
+use App\Model\Facades\ProductsFacade;
 
-  //TODO
+class HomepagePresenter extends BasePresenter {
+
+    /** @var ProductsFacade $productsFacade */
+    private ProductsFacade $productsFacade;
+
+    public function renderSitemap(): void {
+        $this->template->products = $this->productsFacade->findProducts(['order'=>'name']);
+    }
+
+    #region injections
+    public function injectProductsFacade(ProductsFacade $productsFacade): void {
+        $this->productsFacade=$productsFacade;
+    }
+    #endregion injections
 
 }
