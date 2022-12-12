@@ -14,7 +14,9 @@
 	<link rel="apple-touch-icon" sizes="180x180" href="{$basePath}/img/favicon/favicon-180x180.png" />
 	<link rel="icon" href="{$basePath}/img/favicon/favicon.svg" type="image/svg+xml" />
 	<link rel="manifest" href="{plink Homepage:manifest}" />
+
 	<link rel="stylesheet" href="{$basePath}/stylesheets/product-list.css">
+	<link rel="stylesheet" href="{$basePath}/stylesheets/product-show.css">
 
 	{block head}{/block}
 </head>
@@ -22,7 +24,10 @@
 
 <header class="navbar navbar-light bg-light mb-4">
 	<div class="container">
-		<h1 class="h2 mt-1 "><a href="{plink Homepage:default}" class="text-dark">E-shop</a></h1>
+		<h1 class="h2 mt-1 "><a href="{plink Product:list}" class="text-dark">
+				<img src="/~fuxm00/eshop/img/logo.png" height="50px" width="50px">
+				mineshop.cz
+			</a></h1>
 		<div class="ml-auto">
 			<div n:snippet="cart">{control cart}</div>
 			{control userLogin}
