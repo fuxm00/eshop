@@ -28,4 +28,11 @@ class Product extends Entity implements \Nette\Security\Resource {
     function getResourceId():string{
         return 'Product';
     }
+
+    /**
+     * @inheritDoc
+     */
+    function getResourceUrl():string{
+        return '/img/products/'. $this->productId . '.' . $this->photoExtension;
+    }
 }

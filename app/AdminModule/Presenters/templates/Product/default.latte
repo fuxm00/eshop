@@ -6,6 +6,7 @@
     <table class="table table-hover mt-4">
         <thead>
         <tr>
+            <th scope="col">Náhled</th>
             <th scope="col">Název produktu</th>
             <th scope="col" class="col-xl-1 col-md-2">Akce</th>
         </tr>
@@ -13,6 +14,9 @@
         <tbody>
         {foreach $products as $product}
             <tr>
+                <td>
+                    <img src="{$basePath . $product->getResourceUrl()}" alt="Produkt s názvem: {$product->name}" width="65px" height="65px">
+                </td>
                 <td>{$product->name}</td>
                 <td class="text-nowrap">
                     <a href="{link edit id=>$product->productId}" class="btn btn-sm btn-outline-primary">upravit</a>
