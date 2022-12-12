@@ -9,14 +9,14 @@
     </url>
 
     <url>
-        <loc>{plink Product:list}</loc>
+        <loc>{link //Product:list}</loc>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
 
     {foreach $products as $product}
         <url>
-            <loc>{plink Product:show url=>$product->url}</loc>
+            <loc>{link //Product:show url=>$product->url}</loc>
             <changefreq>weekly</changefreq>
             <priority>0.8</priority>
         </url>

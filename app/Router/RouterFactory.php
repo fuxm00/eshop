@@ -16,9 +16,9 @@ final class RouterFactory {
 
         $frontRouter = new RouteList('Front');
         $frontRouter->addRoute('sitemap.xml', 'Homepage:sitemap');
-        $frontRouter->addRoute('produkty[/kategorie-<category>]', 'Product:list');  //pokud je do adresy zakomponována také proměnná category, je doplněna do adresy
+        $frontRouter->addRoute('produkty[/kategorie-<category>]', 'Product:list');
         $frontRouter->addRoute('produkty[/kategorie-<category>]/<url>', 'Product:show');  //pokud je do adresy zakomponována také proměnná category, je doplněna prostřední část adresy
-        $frontRouter->addRoute('<presenter=Homepage>/<action=default>[/<id>]');
+        $frontRouter->addRoute('<presenter=Product>', 'Product:list');
 
         $router = new RouteList();
         $router->add($adminRouter);

@@ -66,7 +66,7 @@ class ProductsFacade {
 
     public function deleteProduct(Product $product): bool {
         try {
-            return $this->productsRepository->delete($product);
+            return (bool)$this->productsRepository->delete($product);
         } catch (\Exception $e) {
             return false;
         }
