@@ -15,6 +15,7 @@
 	<link rel="icon" href="{$basePath}/img/favicon/favicon.svg" type="image/svg+xml" />
 	<link rel="manifest" href="{plink Homepage:manifest}" />
 
+	<link rel="stylesheet" href="{$basePath}/stylesheets/main.css">
 	<link rel="stylesheet" href="{$basePath}/stylesheets/product-list.css">
 	<link rel="stylesheet" href="{$basePath}/stylesheets/product-show.css">
 
@@ -22,17 +23,35 @@
 </head>
 <body>
 
-<header class="navbar navbar-light bg-light mb-4">
+<header class="navbar navbar-light bg-light mb-4 navbar-layout">
 	<div class="container">
-		<h1 class="h2 mt-1 "><a href="{plink Product:list}" class="text-dark">
-				<img src="/~fuxm00/eshop/img/logo.png" height="50px" width="50px">
-				mineshop.cz
-			</a></h1>
+		<h1 class="h2 mt-1 ">
+			<a href="{plink Product:list}" class="text-dark main-link">
+				<img src="/~fuxm00/eshop/img/logo.png" height="70px" width="70px">
+				<div>
+					<div>MINE</div>
+					<div>SHOP.CZ</div>
+				</div>
+			</a>
+		</h1>
 		<div class="ml-auto">
 			<div n:snippet="cart">{control cart}</div>
 			{control userLogin}
 		</div>
 	</div>
+	<nav>
+		<ul class="nav-links">
+			<li><a href="#">domů</a></li>
+			<p>|</p>
+			<li><a href="#">o nás</a></li>
+			<p>|</p>
+			<li><a href="#">kontakt</a></li>
+			<p>|</p>
+			<li><a href="#">slevy</a></li>
+			<p>|</p>
+			<li><a href="#">premium</a></li>
+		</ul>
+	</nav>
 </header>
 <div>
 

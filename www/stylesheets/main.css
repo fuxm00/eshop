@@ -1,0 +1,59 @@
+:root {
+    --defaultGreen: #1FDC81;
+    --highLightGreen: #1cbf6c;
+}
+
+.main-link {
+    display: flex;
+}
+
+.main-link div div {
+    font-size: 1.75rem;
+}
+
+.green-btn {
+    padding: 0.3rem;
+    background-color: var(--defaultGreen);
+    color: white;
+}
+
+.green-btn:hover {
+    background-color: var(--highLightGreen);
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease 0s ;
+}
+
+.navbar-layout {
+    display: flex;
+}
+
+nav {
+    width: 100%;
+    background-color: var(--defaultGreen);
+}
+
+.nav-links {
+    list-style: none;
+}
+
+.nav-links li {
+    display: inline-block;
+    padding: 0 20px;
+}
+
+.nav-links li a{
+    color: white;
+    transition: all 0.3s ease 0s ;
+}
+
+.nav-links li a:hover {
+    color: black;
+    text-decoration: none;
+}
+
+
+.nav-links p {
+    display: inline;
+    color: white;
+}
