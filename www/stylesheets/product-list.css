@@ -41,7 +41,10 @@
 }
 
 .products-image {
-    max-width: 100%;
+    display: block;
+    max-width: 50%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .products-description {

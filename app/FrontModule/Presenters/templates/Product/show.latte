@@ -1,8 +1,23 @@
 {varType App\Model\Entities\Product $product}
 {block content}
+<div class="product-layout">
+    <div class="image-container">
+        <img src="{$basePath . $product->getResourceUrl()}" alt="{$product->name}" class="product-image">
+    </div>
 
-<h1 n:block="title">{$product->name}</h1>
+    <div class="text-container">
+        <h1 n:block="title">{$product->name}</h1>
+        <p>{$product->description}</p>
+        <div class="cart-layout">
+            <div class="product-price">
+                <div>{$product->price} X</div>
+                <img src="https://www.clipartmax.com/png/middle/143-1433258_joaquim-grenon-minecraft-emerald-coloring-pages.png" alt="Emerald">
+            </div>
+            {control "productCartForm-$product->productId"}
+        </div>
+    </div>
 
-<p>
-    {$product->description}
-</p>
+
+</div>
+
+
