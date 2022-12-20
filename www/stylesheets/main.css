@@ -3,6 +3,18 @@
     --highLightGreen: #1cbf6c;
 }
 
+.header-container {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.login-and-cart-layout {
+    display: flex;
+    gap: 0 16px;
+}
+
 .main-link {
     display: flex;
 }

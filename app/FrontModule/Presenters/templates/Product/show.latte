@@ -8,6 +8,16 @@
     <div class="text-container">
         <h1 n:block="title">{$product->name}</h1>
         <p>{$product->description}</p>
+        <p>Kategorie:</p>
+        {if $product->categories}
+        <ul>
+            {foreach $product->categories as $category}
+                <li>{$category->title}</li>
+            {/foreach}
+        </ul>
+        {else}
+        <p>žádné</p>
+        {/if}
         <div class="cart-layout">
             <div class="product-price">
                 <div>{$product->price} X</div>

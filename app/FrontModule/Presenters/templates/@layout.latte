@@ -24,7 +24,7 @@
 <body>
 
 <header class="navbar navbar-light bg-light mb-4 navbar-layout">
-	<div class="container">
+	<div class="header-container">
 		<h1 class="h2 mt-1 ">
 			<a href="{plink Product:list}" class="text-dark main-link">
 				<img src="/~fuxm00/eshop/img/logo.png" height="70px" width="70px">
@@ -34,9 +34,9 @@
 				</div>
 			</a>
 		</h1>
-		<div class="ml-auto">
+		<div class="login-and-cart-layout">
+			<div>{control userLogin}</div>
 			<div n:snippet="cart">{control cart}</div>
-			{control userLogin}
 		</div>
 	</div>
 	<nav>
