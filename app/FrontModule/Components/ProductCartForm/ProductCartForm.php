@@ -27,7 +27,14 @@ class ProductCartForm extends Form{
    */
   public function __construct(Nette\ComponentModel\IContainer $parent = null, string $name = null){
     parent::__construct($parent, $name);
-    $this->setRenderer(new Bs4FormRenderer(FormLayout::VERTICAL));
+
+    $renderer = $this->getRenderer();
+
+    $renderer->wrappers['controls']['container'] = null;
+    $renderer->wrappers['pair']['container'] = null;
+    $renderer->wrappers['label']['container'] = null;
+    $renderer->wrappers['control']['container'] = null;
+
     $this->createSubcomponents();
   }
 
@@ -40,11 +47,17 @@ class ProductCartForm extends Form{
   }
 
   private function createSubcomponents(){
-    $this->addHidden('productId');
-    $this->addInteger('count')
-      ->addRule(Form::RANGE,'Chybný počet kusů.',[1,100]);
+      $this->setHtmlAttribute('class', 'cart-form');
 
-    $this->addSubmit('ok','-> KOŠÍK');
+      $this->addHidden('productId');
+      $this->addInteger('count')
+          ->addRule(Form::RANGE,'Chybný počet kusů.',[1,100])
+          ->setHtmlAttribute('class', 'count-input');
+
+      $this->addSubmit('ok','do košíku')
+          ->setHtmlAttribute('class', 'count-submit-btn')
+          ->setHtmlAttribute('class', 'green-btn');
+
   }
 
 }

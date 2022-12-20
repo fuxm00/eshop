@@ -23,6 +23,9 @@
     font-size: 1.75rem;
 }
 
+
+
+
 .green-btn {
     padding: 0.3rem 0.5rem;
     background-color: var(--defaultGreen);
@@ -36,6 +39,9 @@
     text-decoration: none;
     transition: all 0.3s ease 0s ;
 }
+
+
+
 
 .navbar-layout {
     display: flex;
@@ -67,8 +73,23 @@ nav {
     text-decoration: none;
 }
 
-
 .nav-links p {
     display: inline;
     color: white;
 }
+
+
+
+.cart-form {
+    display: flex;
+    gap: 4px;
+}
+
+.count-input {
+    width: 50px;
+}
+
+.count-submit-btn {
+    border: none;
+}
+
