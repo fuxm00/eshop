@@ -5,6 +5,8 @@ namespace App\FrontModule\Presenters;
 use App\FrontModule\Components\CartControl\CartControl;
 use App\FrontModule\Components\ProductCartForm\ProductCartForm;
 use App\FrontModule\Components\ProductCartForm\ProductCartFormFactory;
+use App\FrontModule\Components\ProductsFilterForm\ProductsFilterForm;
+use App\FrontModule\Components\ProductsFilterForm\ProductsFilterFormFactory;
 use App\Model\Facades\ProductsFacade;
 use Nette\Application\BadRequestException;
 use Nette\Application\UI\Multiplier;
@@ -19,9 +21,12 @@ class ProductPresenter extends BasePresenter {
     private $productsFacade;
     /** @var ProductCartFormFactory $productCartFormFactory */
     private $productCartFormFactory;
+    /** @var ProductsFilterFormFactory $productsFilterFormFactory */
+    private $productsFilterFormFactory;
 
     /** @persistent */
-    public $category;
+    public $filter = [];
+
 
     /**
      * Akce pro zobrazení jednoho produktu
@@ -42,8 +47,41 @@ class ProductPresenter extends BasePresenter {
      * Akce pro vykreslení přehledu produktů
      */
     public function renderList(): void {
-        //TODO tady by mělo přibýt filtrování podle kategorie, stránkování atp.
-        $this->template->products = $this->productsFacade->findProducts(['order'=>'name']);
+        $filter = $this->filter;
+        $whereArr = [];
+        if (isset($filter['orderBy'])) {
+            $whereArr['order'] = str_replace('-', ' ', $filter['orderBy']);
+        } else {
+            $whereArr['order'] = 'name';
+        }
+        if (!empty($filter['categories'])) {
+            $whereArr['categories'] = $filter['categories'];
+        }
+        if (isset($filter['onlyAvailable']) && $filter['onlyAvailable'] == '1') {
+            $whereArr['onlyAvailable'] = true;
+        }
+        $this->template->products = $this->productsFacade->findProducts($whereArr);
+        $this->template->filter = $filter;
+    }
+
+    protected function createComponentProductsFilterForm(): ProductsFilterForm {
+        $form = $this->productsFilterFormFactory->create();
+
+        if (!empty($this->filter)) {
+            $form->setDefaults($this->filter);
+        }
+
+        $form->onReset[] = function() {
+            $this->filter = [];
+            $this->redirect('this');
+        };
+
+        $form->onFilter[] = function() use ($form) {
+            $this->filter = [...$form->getValues()];
+            $this->redirect('this');
+        };
+
+        return $form;
     }
 
     protected function createComponentProductCartForm(): Multiplier {
@@ -67,7 +105,7 @@ class ProductPresenter extends BasePresenter {
                 $cart = $this->getComponent('cart');
                 $cart->addToCart($product, (int)$form->values->count);
 
-                $this->flashMessage('Produkt přidán do košíku: '.$product->name);
+                $this->flashMessage('Produkt přidán do košíku: ' . $product->name);
                 if ($this->isAjax()) {
                     $this->redrawControl('flashes');
                     $this->redrawControl('cart');
@@ -82,11 +120,15 @@ class ProductPresenter extends BasePresenter {
 
     #region injections
     public function injectProductsFacade(ProductsFacade $productsFacade): void {
-        $this->productsFacade=$productsFacade;
+        $this->productsFacade = $productsFacade;
     }
 
     public function injectProductCartFormFactory(ProductCartFormFactory $productCartFormFactory): void {
-        $this->productCartFormFactory=$productCartFormFactory;
+        $this->productCartFormFactory = $productCartFormFactory;
+    }
+
+    public function injectProductsFilterFormFactory(ProductsFilterFormFactory $productsFilterFormFactory): void {
+        $this->productsFilterFormFactory = $productsFilterFormFactory;
     }
     #endregion injections
 }

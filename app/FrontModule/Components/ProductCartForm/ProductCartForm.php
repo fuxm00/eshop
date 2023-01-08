@@ -5,16 +5,13 @@ namespace App\FrontModule\Components\ProductCartForm;
 use App\FrontModule\Components\CartControl\CartControl;
 use Nette;
 use Nette\Application\UI\Form;
-use Nette\Forms\Controls\SubmitButton;
 use Nette\SmartObject;
-use Nextras\FormsRendering\Renderers\Bs4FormRenderer;
-use Nextras\FormsRendering\Renderers\FormLayout;
 
 /**
  * Class ProductCartForm
  * @package App\FrontModule\Components\ProductCartForm
  */
-class ProductCartForm extends Form{
+class ProductCartForm extends Form {
 
   use SmartObject;
 
@@ -52,9 +49,11 @@ class ProductCartForm extends Form{
       $this->addHidden('productId');
       $this->addInteger('count')
           ->addRule(Form::RANGE,'Chybný počet kusů.',[1,100])
+          ->setDefaultValue(1)
+          ->setRequired('Počet kusů je povinný.')
           ->setHtmlAttribute('class', 'count-input');
 
-      $this->addSubmit('ok','do košíku')
+      $this->addSubmit('ok','Do košíku')
           ->setHtmlAttribute('class', 'count-submit-btn')
           ->setHtmlAttribute('class', 'green-btn');
 

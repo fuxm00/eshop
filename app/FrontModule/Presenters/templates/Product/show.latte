@@ -1,5 +1,6 @@
 {varType App\Model\Entities\Product $product}
 {block content}
+<a class="backButton btn" n:href="Product:list">Zpět</a>
 <div class="product-layout">
     <div class="image-container">
         <img src="{$basePath . $product->getResourceUrl()}" alt="{$product->name}" class="product-image">

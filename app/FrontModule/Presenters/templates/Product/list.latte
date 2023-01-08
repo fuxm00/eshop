@@ -1,7 +1,14 @@
 {varType App\Model\Entities\Product[] $products}
+{varType array $filter}
 {block content}
+
 <div class="products-layout">
-    <div class="products-filter">Kategorie</div>
+    <div class="products-filter">
+        <h3>Filtery</h3>
+        <div class="{if empty($filter)}products-filter--hideRemove{/if}">
+            {control productsFilterForm}
+        </div>
+    </div>
     <div class="products-list">
         <h1 n:block="title">Nabízené produkty</h1>
         <section class="products-grid" n:if="!empty($products)">
@@ -10,9 +17,23 @@
                     <div class="products-header">
                         <a href="{plink Product:show url=>$product->url}">{$product->name}</a>
                     </div>
-                    <a href="{plink Product:show url=>$product->url}">
-                        <img src="{$basePath . $product->getResourceUrl()}" alt="{$product->name}" class="products-image">
-                    </a>
+                    <div class="products-imageContainer">
+                        <div class="products-tags">
+                            {if $product->available}
+                                <div class="products-tag" style="background-color: #05a">
+                                    Na skladě
+                                </div>
+                            {/if}
+                        {foreach $product->categories as $category}
+                                <div class="products-tag">
+                                    {$category->title}
+                                </div>
+                            {/foreach}
+                        </div>
+                        <a href="{plink Product:show url=>$product->url}">
+                            <img src="{$basePath . $product->getResourceUrl()}" alt="{$product->name}" class="products-image">
+                        </a>
+                    </div>
                     <div class="products-description">{$product->description}</div>
                     <div class="products-footer">
                         <div class="products-price">

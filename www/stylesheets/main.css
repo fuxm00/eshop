@@ -40,6 +40,15 @@
     transition: all 0.3s ease 0s ;
 }
 
+.backButton {
+    display: block;
+    margin-left: auto;
+    color: white;
+    background-color: var(--defaultGreen);
+    width: fit-content;
+    margin-right: 100px;
+}
+
 
 
 
