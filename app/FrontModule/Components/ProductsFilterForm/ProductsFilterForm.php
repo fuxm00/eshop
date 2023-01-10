@@ -24,18 +24,18 @@ class ProductsFilterForm extends Form {
     parent::__construct($parent, $name);
     $this->categoriesFacade = $categoriesFacade;
     $this->setRenderer(new Bs4FormRenderer(FormLayout::VERTICAL));
-
-    $this->createSubcomponents();
   }
 
-  private function createSubcomponents() {
+  public function createSubcomponents($showRemoveButton = true) {
     $this->setHtmlAttribute('class', 'filter-form');
 
-    $this->addSubmit('removeFilter', 'Zrušit filtr')
-        ->setHtmlAttribute('class', 'btn btn-danger btn-sm products-filter--remove')
-        ->onClick[] = function() {
-        $this->onReset();
-    };
+    if ($showRemoveButton) {
+        $this->addSubmit('removeFilter', 'Zrušit filtr')
+            ->setHtmlAttribute('class', 'btn btn-danger btn-sm products-filter--remove')
+            ->onClick[] = function() {
+            $this->onReset();
+        };
+    }
 
     $allCategories = [];
     foreach ($this->categoriesFacade->findCategories() as $category) {

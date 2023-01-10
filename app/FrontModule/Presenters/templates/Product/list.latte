@@ -1,13 +1,10 @@
 {varType App\Model\Entities\Product[] $products}
-{varType array $filter}
 {block content}
 
 <div class="products-layout">
     <div class="products-filter">
         <h3>Filtery</h3>
-        <div class="{if empty($filter)}products-filter--hideRemove{/if}">
-            {control productsFilterForm}
-        </div>
+        {control productsFilterForm}
     </div>
     <div class="products-list">
         <h1 n:block="title">Nabízené produkty</h1>

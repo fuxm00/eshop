@@ -61,11 +61,11 @@ class ProductPresenter extends BasePresenter {
             $whereArr['onlyAvailable'] = true;
         }
         $this->template->products = $this->productsFacade->findProducts($whereArr);
-        $this->template->filter = $filter;
     }
 
     protected function createComponentProductsFilterForm(): ProductsFilterForm {
         $form = $this->productsFilterFormFactory->create();
+        $form->createSubcomponents(!empty($this->filter));
 
         if (!empty($this->filter)) {
             $form->setDefaults($this->filter);

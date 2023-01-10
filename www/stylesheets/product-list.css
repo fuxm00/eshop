@@ -31,10 +31,6 @@
     right: 2rem;
 }
 
-.products-filter--hideRemove .products-filter--remove {
-    display: none;
-}
-
 /* Products grid */
 
 .products-grid {
