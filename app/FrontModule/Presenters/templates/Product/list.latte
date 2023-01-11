@@ -6,6 +6,10 @@
         <h3>Filtery</h3>
         {control productsFilterForm}
     </div>
+    <div id="filter-line"></div>
+    <div id="form-filter-open">
+        Filtery
+    </div>
     <div class="products-list">
         <h1 n:block="title">Nabízené produkty</h1>
         <section class="products-grid" n:if="!empty($products)">
@@ -44,3 +48,4 @@
         </section>
     </div>
 </div>
+<script src="{$basePath}/js/main.js"></script>
