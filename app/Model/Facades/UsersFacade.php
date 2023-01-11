@@ -129,7 +129,17 @@ class UsersFacade{
       $roles[]=$user->role->roleId;
     }
     //vytvoření a vrácení SimpleIdentity
-    return new SimpleIdentity($user->userId,$roles,['name'=>$user->name,'email'=>$user->email]);
+    return new SimpleIdentity($user->userId, $roles, [
+        'name'=>$user->name,
+        'email'=>$user->email,
+        'country'=>$user->country,
+        'city'=>$user->city,
+        'street'=>$user->street,
+        'zip'=>$user->zip,
+        'telNumber'=>$user->telNumber,
+        'addressNumber'=>$user->addressNumber,
+        'purchaseOrders'=>$user->purchaseOrders
+    ]);
   }
 
   #region metody pro zapomenuté heslo

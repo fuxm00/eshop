@@ -31,9 +31,12 @@
     background-color: var(--defaultGreen);
     color: white;
     border-radius: 5px;
+    outline: none;
+    border: none;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
 }
 
-.green-btn:hover {
+.green-btn:hover, .green-btn:focus {
     background-color: var(--highLightGreen);
     color: white;
     text-decoration: none;

@@ -16,8 +16,11 @@ use Dibi\DateTime;
  * @property string $street
  * @property int $addressNumber
  * @property string $zip
- * @property string $email
- * @property string|null $phone = null
+ * @property string $mail
+ * @property string|null $telNumber = null
+ * @property string $state = 'pending'
+ * @property string $name
+ * @property User $user m:hasOne(user_id)
  */
 
 class PurchaseOrder extends Entity implements \Nette\Security\Resource {

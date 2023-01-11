@@ -39,6 +39,7 @@ services:
 	- App\FrontModule\Components\CartControl\CartControlFactory
 	- App\FrontModule\Components\UserLoginControl\UserLoginControlFactory
 	- App\FrontModule\Components\ProductsFilterForm\ProductsFilterFormFactory
+	- App\FrontModule\Components\UserDetailsForm\UserDetailsFormFactory
 
 	- App\Model\Facades\CategoriesFacade
 	- App\Model\Facades\ProductsFacade

@@ -76,7 +76,7 @@ class ForgottenPasswordForm extends Form{
 
         //vygenerování odkaz na změnu hesla
         $forgottenPassword = $this->usersFacade->saveNewForgottenPasswordCode($user);
-        $mailLink = $this->linkGenerator->link('//Front:User:renewPassword', ['user'=>$user->userId, 'code'=>$forgottenPassword->code]);
+        $mailLink = $this->linkGenerator->link('Front:User:renewPassword', ['user'=>$user->userId, 'code'=>$forgottenPassword->code]);
 
         #region příprava textu mailu
         $mail = new Nette\Mail\Message();
@@ -89,7 +89,6 @@ class ForgottenPasswordForm extends Form{
         //odeslání mailu pomocí PHP funkce mail
         $mailer = new Nette\Mail\SendmailMailer;
         $mailer->send($mail);
-
         $this->onFinished();
       };
     $this->addSubmit('storno','zrušit')

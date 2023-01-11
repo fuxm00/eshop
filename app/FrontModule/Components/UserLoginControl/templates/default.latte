@@ -1,7 +1,7 @@
 {snippet}
   <div {if !empty($class)}class="{$class}"{/if}>
     {if $user->isLoggedIn()}
-      <strong>{$user->identity->name}</strong>
+      <a style="font-weight: bold" href="{plink User:profile}">{$user->identity->name}</a>
       -
       <a href="{link logout!}">odhlásit se</a>
     {else}

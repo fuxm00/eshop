@@ -1,0 +1,41 @@
+{block content}
+
+<h1 n:block="title">Uživatel {$user->identity->name}</h1>
+
+{control userDetailsForm}
+
+<div>
+    <p>
+        Historie objednávek
+    </p>
+    {if empty($user->identity->purchaseOrders)}
+        <p>
+            Nemáte ještě žádné objednávky.
+        </p>
+    {else}
+        {foreach $user->identity->purchaseOrders as $purchaseOrder}
+            <div>
+                <p>
+                    Objednávka č. {$purchaseOrder->orderId}
+                </p>
+                <p>
+                    Datum objednání: {$purchaseOrder->createdAt|date:'d.m.Y'}
+                </p>
+                <p>
+                    Celková cena: {$purchaseOrder->total} Emeraldů
+                </p>
+                <p>
+                    Stav objednávky: {if $purchaseOrder->state == 'pending'}
+                        Čeká na zpracování
+                    {elseif $purchaseOrder->state == 'sent'}
+                        Odesláno
+                    {elseif $purchaseOrder->state == 'delivered'}
+                        Doručeno
+                    {elseif $purchaseOrder->state == 'canceled'}
+                        Zrušeno
+                    {/if}
+                </p>
+            </div>
+        {/foreach}
+    {/if}
+</div>

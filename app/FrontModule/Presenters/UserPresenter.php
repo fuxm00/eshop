@@ -6,6 +6,8 @@ use App\FrontModule\Components\ForgottenPasswordForm\ForgottenPasswordForm;
 use App\FrontModule\Components\ForgottenPasswordForm\ForgottenPasswordFormFactory;
 use App\FrontModule\Components\NewPasswordForm\NewPasswordForm;
 use App\FrontModule\Components\NewPasswordForm\NewPasswordFormFactory;
+use App\FrontModule\Components\UserDetailsForm\UserDetailsForm;
+use App\FrontModule\Components\UserDetailsForm\UserDetailsFormFactory;
 use App\FrontModule\Components\UserLoginForm\UserLoginForm;
 use App\FrontModule\Components\UserLoginForm\UserLoginFormFactory;
 use App\FrontModule\Components\UserRegistrationForm\UserRegistrationForm;
@@ -31,6 +33,7 @@ class UserPresenter extends BasePresenter{
   private ForgottenPasswordFormFactory $forgottenPasswordFormFactory;
   private NewPasswordFormFactory $newPasswordFormFactory;
   private FacebookApi $facebookApi;
+  private UserDetailsFormFactory $userDetailsFormFactory;
   
   /**
    * Akce pro odhlášení uživatele
@@ -40,7 +43,7 @@ class UserPresenter extends BasePresenter{
     if ($this->user->isLoggedIn()){
       $this->user->logout();
     }
-    $this->redirect('Homepage:default');
+    $this->redirect('Product:list');
   }
 
   /**
@@ -51,7 +54,7 @@ class UserPresenter extends BasePresenter{
     if ($this->user->isLoggedIn()){
       //obnovíme uložený požadavek - pokud se to nepovede, pokračujeme přesměrováním
       $this->restoreRequest($this->backlink);
-      $this->redirect('Homepage:default');
+      $this->redirect('Product:list');
     }
   }
 
@@ -61,7 +64,7 @@ class UserPresenter extends BasePresenter{
    */
   public function actionRegister():void {
     if ($this->user->isLoggedIn()){
-      $this->redirect('Homepage:default');
+      $this->redirect('Product:list');
     }
   }
 
@@ -86,16 +89,16 @@ class UserPresenter extends BasePresenter{
 
       }catch (\Exception $e){
         $this->flashMessage('Přihlášení pomocí Facebooku se nezdařilo.','error');
-        $this->redirect('Homepage:default');
+        $this->redirect('Product:list');
       }
 
       //obnovíme uložený požadavek - pokud se to nepovede, pokračujeme přesměrováním
       $this->restoreRequest($this->backlink);
-      $this->redirect('Homepage:default');
+      $this->redirect('Product:list');
       #endregion návrat z Facebooku
     }else{
       #region přesměrování na přihlášení pomocí Facebooku
-      $backlink = $this->link('//User:facebookLogin',['callback'=>true]);
+      $backlink = $this->link('//User:facebookLogin', ['callback'=>true]);
       $facebookLoginLink = $this->facebookApi->getLoginUrl($backlink);
       $this->redirectUrl($facebookLoginLink);
       #endregion přesměrování na přihlášení pomocí Facebooku
@@ -124,9 +127,13 @@ class UserPresenter extends BasePresenter{
     }else{
       #region odkaz již není platný
       $this->flashMessage('Odkaz na změnu hesla již není platný. Pokud potřebujete heslo obnovit, zašlete žádost znovu.','error');
-      $this->redirect('Homepage:default');
+      $this->redirect('Product:list');
       #endregion odkaz již není platný
     }
+  }
+
+  public function renderProfile(): void {
+
   }
 
   /**
@@ -148,10 +155,10 @@ class UserPresenter extends BasePresenter{
 
       //obnovíme uložený požadavek - pokud se to nepovede, pokračujeme přesměrováním
       $this->restoreRequest($this->backlink);
-      $this->redirect('Homepage:default');
+      $this->redirect('Product:list');
     };
     $form->onCancel[]=function()use($form){
-      $this->redirect('Homepage:default');
+      $this->redirect('Product:list');
     };
     return $form;
   }
@@ -171,10 +178,10 @@ class UserPresenter extends BasePresenter{
       }catch (\Exception $e){
         $this->flashMessage('Při registraci se vyskytla chyba','error');
       }
-      $this->redirect('Homepage:default');
+      $this->redirect('Product:list');
     };
     $form->onCancel[]=function()use($form){
-      $this->redirect('Homepage:default');
+      $this->redirect('Product:list');
     };
     return $form;
   }
@@ -213,11 +220,68 @@ class UserPresenter extends BasePresenter{
       if (!empty($message)){
         $this->flashMessage($message);
       }
-      $this->redirect('Homepage:default');
+      $this->redirect('Product:list');
     };
     $form->onCancel[]=function()use($form){
-      $this->redirect('Homepage:default');
+      $this->redirect('Product:list');
     };
+    return $form;
+  }
+
+  protected function createComponentUserDetailsForm(): UserDetailsForm {
+    $form = $this->userDetailsFormFactory->create();
+    $form->createSubcomponents();
+    $form->prepareDefaults($this->user->getIdentity());
+    $form->onSave[] = function () use($form) {
+        $values = $form->getValues('array');
+        try {
+            $user = $this->usersFacade->getUserByEmail($this->user->getIdentity()->email);
+        } catch (\Exception $e) {
+            $this->flashMessage('Uživatel neexistuje', 'error');
+            $this->redirect('User:profile');
+        }
+        $convertedValues = [
+            "name" => $values["name"],
+            "email" => $values["email"],
+            "country" => empty($values['country']) ? null : $values['country'],
+            "city" => empty($values['city']) ? null : $values['city'],
+            "street" => empty($values['street']) ? null : $values['street'],
+            "zip" => empty($values['zip']) ? null : $values['zip'],
+            "telNumber" => empty($values['telNumber']) ? null : $values['telNumber'],
+            "addressNumber" => empty($values['addressNumber']) ? null : $values['addressNumber'],
+        ];
+
+        $user->name = $convertedValues['name'];
+        $user->email = $convertedValues['email'];
+        $user->country = $convertedValues['country'];
+        $user->city = $convertedValues['city'];
+        $user->street = $convertedValues['street'];
+        $user->zip = $convertedValues['zip'];
+        $user->telNumber = $convertedValues['telNumber'];
+        $user->addressNumber = $convertedValues['addressNumber'];
+
+        try {
+            $this->usersFacade->saveUser($user);
+        } catch (\Exception $e) {
+            $this->flashMessage('Nastala chyba při ukládání', 'error');
+            $this->redirect('User:profile');
+        }
+        $this->user->identity->name = $convertedValues['name'];
+        $this->user->identity->email = $convertedValues['email'];
+        $this->user->identity->country = $convertedValues['country'];
+        $this->user->identity->city = $convertedValues['city'];
+        $this->user->identity->street = $convertedValues['street'];
+        $this->user->identity->zip = $convertedValues['zip'];
+        $this->user->identity->telNumber = $convertedValues['telNumber'];
+        $this->user->identity->addressNumber = $convertedValues['addressNumber'];
+
+        $this->user->refreshStorage();
+
+
+        $this->flashMessage('Uživatelské údaje byly uloženy.');
+        $this->redirect('User:profile');
+    };
+
     return $form;
   }
 
@@ -244,6 +308,10 @@ class UserPresenter extends BasePresenter{
 
   public function injectFacebookApi( FacebookApi $facebookApi):void {
     $this->facebookApi=$facebookApi;
+  }
+
+  public function injectUserDetailsFormFactory(UserDetailsFormFactory $userDetailsFormFactory): void {
+    $this->userDetailsFormFactory=$userDetailsFormFactory;
   }
   #endregion injections
 }
