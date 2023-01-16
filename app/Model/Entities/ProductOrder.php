@@ -7,12 +7,11 @@ use LeanMapper\Entity;
 /**
  * Class ProductOrder
  * @package App\Model\Entities
- * @property int $orderId
- * @property int $productId
- * @property int $quantity
- * @property int $price
- * @property Product $product m:hasOne
+ * @property int $productOrderId
  * @property PurchaseOrder $order m:hasOne
+ * @property Product $product m:hasOne
+ * @property int $price
+ * @property int $quantity
  */
 class ProductOrder extends Entity implements \Nette\Security\Resource {
 
