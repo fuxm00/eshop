@@ -16,7 +16,7 @@
         {foreach $user->identity->purchaseOrders as $purchaseOrder}
             <div>
                 <p>
-                    Objednávka č. {$purchaseOrder->orderId}
+                    Objednávka č. {$purchaseOrder->purchaseOrderId}
                 </p>
                 <p>
                     Datum objednání: {$purchaseOrder->createdAt|date:'d.m.Y'}

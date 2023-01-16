@@ -17,6 +17,7 @@ final class RouterFactory {
         $frontRouter = new RouteList('Front');
         $frontRouter->addRoute('sitemap.xml', 'Homepage:sitemap');
         $frontRouter->addRoute('produkty/<url>', 'Product:show');
+        $frontRouter->addRoute('kosik', 'Cart:default');
         $frontRouter->addRoute('<presenter=Product>/<action=list>[/<id>]');
         $router = new RouteList();
         $router->add($adminRouter);

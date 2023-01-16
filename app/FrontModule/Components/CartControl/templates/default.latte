@@ -1,20 +1,12 @@
 {varType App\Model\Entities\Cart $cart}
 
-<div n:snippet="info" data-naja-snippet-cache="off">
-
-  {if empty($cart) || $cart->getTotalCount() == 0}
-    <a href="{plink Cart:default}">košík</a> je prázdný
-  {else}
-  {var $cartTotalCount = $cart->getTotalCount();}
-    <a href="{plink Cart:default}">v košíku</a>
-    {if $cartTotalCount > 1 && $cartTotalCount < 5} jsou
-      {else} je
-    {/if}
-    {$cartTotalCount}
-    {if $cartTotalCount==1}položka
-    {elseif $cartTotalCount<5}položky
-    {else}položek
-    {/if} za {$cart->getTotalPrice()|number:0,',',' '} Kč
-  {/if}
-
+<div n:snippet="info" data-naja-snippet-cache="off" class="cart-container">
+  <a href="{plink Cart:default}">
+    <img src="{$basePath}/img/cart.png" alt="cart" />
+  </a>
+  <div n:if="$cart->getTotalCount() > 0" class="cart-count">{$cart->getTotalCount()}</div>
+  <div n:if="$cart->getTotalCount() > 0" class="cart-price">
+    {$cart->getTotalPrice()|number:0,',',' '}
+    <img src="{$basePath}/img/emerald.png" alt="priceImg" />
+  </div>
 </div>

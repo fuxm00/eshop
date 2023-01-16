@@ -5,7 +5,10 @@ namespace App\Model\Authorizator;
 use App\Model\Entities\Category;
 use App\Model\Entities\Product;
 use App\Model\Entities\Permission;
+use App\Model\Entities\PurchaseOrder;
 use App\Model\Entities\User;
+use App\Model\Facades\ProductOrderFacade;
+use App\Model\Facades\PurchaseOrderFacade;
 use App\Model\Facades\UsersFacade;
 use App\Model\Facades\CategoriesFacade;
 use Nette\Security\Resource;
@@ -18,6 +21,8 @@ use Nette\Security\Role;
 class Authorizator extends \Nette\Security\Permission {
 
     private CategoriesFacade $categoriesFacade;
+    private ProductOrderFacade $productOrderFacade;
+    private PurchaseOrderFacade $purchaseOrderFacade;
 
   /**
    * Metoda pro ověření uživatelských oprávnění
@@ -27,7 +32,7 @@ class Authorizator extends \Nette\Security\Permission {
    * @return bool
    */
   public function isAllowed($role = self::ALL, $resource = self::ALL, $privilege = self::ALL): bool {
-    //tady mohou být kontroly pro jednotlivé entity
+    //tady jsou kontroly pro jednotlivé entity
     if ($resource instanceof Category) {
       return $this->categoryResourceIsAllowed($role, $resource, $privilege);
     }
@@ -38,6 +43,10 @@ class Authorizator extends \Nette\Security\Permission {
 
     if ($resource instanceof User) {
       return $this->userResourceIsAllowed($role, $resource, $privilege);
+    }
+
+    if ($resource instanceof PurchaseOrder) {
+      return $this->purchaseOrderResourceIsAllowed($role, $resource, $privilege);
     }
 
     return parent::isAllowed($role, $resource, $privilege);
@@ -54,19 +63,30 @@ class Authorizator extends \Nette\Security\Permission {
   }
 
   private function productResourceIsAllowed($role, Product $resource, $privilege): bool {
-    switch ($privilege){
+    $isAllowedByRoleAndAction = parent::isAllowed($role, 'Product', $privilege);
+    switch ($privilege) {
       case 'delete':
-        //TODO kontrola, jestli je produkt v nějaké objednávce
+        return $this->productOrderFacade->findProductOrdersCountByProduct($resource) == 0 && $isAllowedByRoleAndAction;
     }
-    return parent::isAllowed($role, 'Product', $privilege);
+    return $isAllowedByRoleAndAction;
   }
 
     private function userResourceIsAllowed($role, User $resource, $privilege): bool {
-        switch ($privilege){
+        $isAllowedByRoleAndAction = parent::isAllowed($role, 'User', $privilege);
+        switch ($privilege) {
             case 'delete':
-            //TODO: Může admin vžycky smazat jiného uživatele?
+            return $this->purchaseOrderFacade->findPurchaseOrdersCountByUser($resource) == 0 && $isAllowedByRoleAndAction;
         }
-        return parent::isAllowed($role, 'User', $privilege);
+        return $isAllowedByRoleAndAction;
+    }
+
+    private function purchaseOrderResourceIsAllowed($role, PurchaseOrder $resource, $privilege): bool {
+        $isAllowedByRoleAndAction = parent::isAllowed($role, 'PurchaseOrder', $privilege);
+        switch ($privilege) {
+            case 'changeState':
+                return $resource->canStateBeChanged() && $isAllowedByRoleAndAction;
+        }
+        return $isAllowedByRoleAndAction;
     }
 
    /**
@@ -74,8 +94,12 @@ class Authorizator extends \Nette\Security\Permission {
        * @param UsersFacade $usersFacade
        * @param CategoriesFacade $categoriesFacade
   */
-  public function __construct(UsersFacade $usersFacade, CategoriesFacade $categoriesFacade) {
+  public function __construct(UsersFacade $usersFacade, CategoriesFacade $categoriesFacade,
+                              ProductOrderFacade $productOrderFacade, PurchaseOrderFacade $purchaseOrderFacade) {
     $this->categoriesFacade = $categoriesFacade;
+    $this->productOrderFacade = $productOrderFacade;
+    $this->purchaseOrderFacade = $purchaseOrderFacade;
+
     foreach ($usersFacade->findResources() as $resource){
       $this->addResource($resource->resourceId);
     }

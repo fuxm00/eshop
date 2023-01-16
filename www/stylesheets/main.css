@@ -17,6 +17,7 @@
 .login-and-cart-layout {
     display: flex;
     gap: 0 32px;
+    align-items: center;
 }
 
 .main-link {
@@ -107,5 +108,43 @@ nav {
 
 .count-submit-btn {
     border: none;
+}
+
+.cart-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.cart-container a img {
+    width: 45px;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+.cart-count {
+    position: absolute;
+    top: -2px;
+    left: 35px;
+    background-color: var(--defaultGreen);
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 0.8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    pointer-events: none;
+}
+
+.cart-price {
+    text-align: center;
+    font-weight: bold;
+}
+
+.cart-price img {
+    width: 1rem;
 }
 

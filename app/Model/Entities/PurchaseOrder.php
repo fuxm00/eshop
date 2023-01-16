@@ -8,7 +8,7 @@ use Dibi\DateTime;
 /**
  * Class PurchaseOrder
  * @package App\Model\Entities
- * @property int $orderId
+ * @property int $purchaseOrderId
  * @property int $total
  * @property DateTime $createdAt
  * @property string $country
@@ -30,5 +30,9 @@ class PurchaseOrder extends Entity implements \Nette\Security\Resource {
      */
     function getResourceId():string{
         return 'PurchaseOrder';
+    }
+
+    public function canStateBeChanged(): bool {
+        return $this->state != 'delivered' && $this->state != 'canceled';
     }
 }

@@ -19,6 +19,10 @@ class CartPresenter extends BasePresenter {
     private CartFacade $cartFacade;
     private ProductOrderFacade $productOrderFacade;
 
+    public function renderDefault(): void {
+        $this->template->cart = $this->cartFacade->getCartById($this->getSession()->getSection('cart')->get('cartId'));
+    }
+
     protected function createComponentUserDetailsForm(): UserDetailsForm {
         $form = $this->userDetailsFormFactory->create();
         $form->createSubcomponents(true);

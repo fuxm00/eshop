@@ -1,7 +1,10 @@
+{varType App\Model\Entities\Cart $cart}
+
 {block content}
 
 <h1 n:block="title">Košík</h1>
 
 {control cart:list}
-
-{control userDetailsForm}
+{if $cart->getTotalCount() > 0}
+    {control userDetailsForm}
+{/if}

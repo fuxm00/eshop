@@ -1,2 +1,19 @@
 {block content}
-TODO tady bude nějaký obsah e-shopu :)
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <a n:if="$user->isAllowed('Admin:Category','default')" class="card p-4 text-center" href="{plink Category:default}">Správa kategorií produktů</a>
+        </div>
+        <div class="col-6">
+            <a n:if="$user->isAllowed('Admin:Product','default')" class="card p-4 text-center" href="{plink Product:default}">Správa produktů</a>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-6">
+            <a n:if="$user->isAllowed('Admin:User','default')" class="card p-4 text-center" href="{plink User:default}">Správa uživatelů</a>
+        </div>
+        <div class="col-6">
+            <a n:if="$user->isAllowed('Admin:Order','default')" class="card p-4 text-center" href="{plink Order:default}">Změna stavu objednávek</a>
+        </div>
+    </div>
+</div>
