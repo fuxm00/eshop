@@ -29,7 +29,7 @@ class Cart extends Entity{
         return $result;
     }
 
-    public function getTotalPrice(): float {
+    public function getTotalPrice(): int {
         $result = 0;
         if (!empty($this->items)) {
             foreach ($this->items as $item) {

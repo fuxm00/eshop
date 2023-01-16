@@ -46,6 +46,12 @@ class CartFacade {
     }catch (\Exception $e){}
   }
 
+  public function deleteCartById(int $id):void {
+    try {
+      $this->cartRepository->delete($this->getCartById($id));
+     }catch (\Exception $e){}
+  }
+
   /**
    * Metoda pro smazání starých košíků
    */

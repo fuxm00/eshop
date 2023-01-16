@@ -132,10 +132,6 @@ class UserPresenter extends BasePresenter{
     }
   }
 
-  public function renderProfile(): void {
-
-  }
-
   /**
    * Formulář pro přihlášení existujícího uživatele
    * @return UserLoginForm
