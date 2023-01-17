@@ -86,9 +86,17 @@
     position: relative;
 }
 
+.products-imageContainer a {
+    display: block;
+    height: 100%;
+    width: 100%;
+    aspect-ratio: 1/1;
+}
+
 .products-image {
     display: block;
     max-width: 100%;
+    aspect-ratio: 1/1;
     margin-left: auto;
     margin-right: auto;
 }
@@ -102,6 +110,7 @@
     gap: 1rem;
     align-items: center;
     justify-content: space-between;
+    margin-top: auto;
 }
 
 .products-price {
