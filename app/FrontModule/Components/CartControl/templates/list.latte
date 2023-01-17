@@ -8,13 +8,39 @@
 
             {foreach $cart->items as $item}
                 <tr>
-                    <th>{$item->product->name}</th>
-                    <td>{$item->count}</td>
+                    <td>
+                        <img class="cart-product-img" src="{$basePath . $item->product->getResourceUrl()}" alt="Produkt s názvem: {$item->product->name}" width="25" height="25">
+                        <p class="product-name">{$item->product->name}</p>
+                    </td>
+                    <td>{$item->count}x</td>
+                    {if $item->count != 1}
+                        <td>{$item->product->price}
+                            <img class="cart-product-currency-img" src="{$basePath}/img/emerald.png" alt="priceImg" />
+                            / kus</td>
+                        {else} <td/>
+                    {/if}
+                    <td>
+                        {$item->count * $item->product->price}
+                        <img class="cart-product-currency-img" src="{$basePath}/img/emerald.png" alt="priceImg" />
+                    </td>
                     <td>
                         <a href="{link remove! $item->cartItemId}" class="ajax">odebrat</a>
                     </td>
                 </tr>
             {/foreach}
+
+            <tr>
+                <td/>
+                <td/>
+                <td/>
+                <td class="cart-total-price">
+                    {$cart->getTotalPrice()}
+                    <img class="cart-product-currency-img" src="{$basePath}/img/emerald.png" alt="priceImg" />
+                    celkem
+                </td>
+                <td/>
+            </tr>
+
         </table>
     {/if}
 </div>

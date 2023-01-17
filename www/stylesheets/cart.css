@@ -1,0 +1,15 @@
+.product-name {
+    display: inline;
+}
+
+.cart-product-img {
+    margin-right: 15px;
+}
+
+.cart-product-currency-img {
+    width: 1rem;
+}
+
+.cart-total-price {
+    font-weight: bold;
+}

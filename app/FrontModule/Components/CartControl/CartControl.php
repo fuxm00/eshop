@@ -6,6 +6,7 @@ use App\Model\Entities\Cart;
 use App\Model\Entities\CartItem;
 use App\Model\Entities\Product;
 use App\Model\Facades\CartFacade;
+use App\Model\Facades\ProductsFacade;
 use Nette\Application\UI\Control;
 use Nette\Application\UI\Template;
 use Nette\Http\Session;
@@ -21,6 +22,7 @@ class CartControl extends Control{
   private SessionSection $cartSession;
   private CartFacade $cartFacade;
   private Cart $cart;
+  private ProductsFacade $productsFacade;
 
   /**
    * Akce renderující šablonu s odkazem pro zobrazení košíku
@@ -36,6 +38,7 @@ class CartControl extends Control{
       $template = $this->prepareTemplate('list');
       $template->cart = $this->cart;
       $template->render();
+      $this->template->products = $this->productsFacade->findProducts(['order'=>'name']);
   }
 
   public function handleRemove(int $cartItemId): void {
@@ -87,11 +90,12 @@ class CartControl extends Control{
    * @param Session $session
    * @param CartFacade $cartFacade
    */
-  public function __construct(User $user, Session $session, CartFacade $cartFacade){
+  public function __construct(User $user, Session $session, CartFacade $cartFacade, ProductsFacade $productsFacade){
     $this->user = $user;
     $this->cartFacade = $cartFacade;
     $this->cartSession = $session->getSection('cart');
     $this->cart = $this->prepareCart();
+    $this->productsFacade = $productsFacade;
   }
 
   /**
