@@ -17,6 +17,10 @@ class PurchaseOrderFacade {
         return (bool)$this->purchaseOrderRepository->persist($purchaseOrder);
     }
 
+    public function deletePurchaseOrder(PurchaseOrder $purchaseOrder): bool {
+        return (bool)$this->purchaseOrderRepository->delete($purchaseOrder);
+    }
+
     public function findPurchaseOrdersCountByUser(User $user): int {
         return $this->purchaseOrderRepository->findPurchaseOrdersCountByUser($user->userId);
     }

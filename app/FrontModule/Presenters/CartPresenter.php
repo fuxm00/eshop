@@ -75,11 +75,12 @@ class CartPresenter extends BasePresenter {
                 $productOrder->quantity = $cartItem->count;
                 $productOrder->price = (int)$cartItem->product->price;
                 $productOrder->product = $cartItem->product;
-                $productOrder->order = $purchaseOrder;
+                $productOrder->purchaseOrder = $purchaseOrder;
 
                 try {
                     $this->productOrderFacade->saveProductOrder($productOrder);
                 } catch (\Exception $e) {
+                    $this->purchaseOrderFacade->deletePurchaseOrder($purchaseOrder);
                     $this->flashMessage('Nastala chyba při odesílání objednávky.', 'error');
                     $this->redirect('Cart:default');
                 }
