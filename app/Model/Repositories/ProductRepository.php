@@ -12,6 +12,9 @@ class ProductRepository extends BaseRepository {
         $query = $this->connection->select('*')->from($this->getTable())
             ->leftJoin(('category_product'))
             ->using('(product_id)');
+        if (isset($whereArr['name'])) {
+            $query->where('name LIKE ?', '%'.$whereArr['name'].'%');
+        }
         if (isset($whereArr['order'])) {
             $query->orderBy($whereArr['order']);
         }

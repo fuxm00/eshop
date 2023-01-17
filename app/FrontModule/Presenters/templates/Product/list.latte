@@ -46,6 +46,9 @@
                 </div>
             {/foreach}
         </section>
+        <div class="products-empty" n:if="empty($products)">
+            Žádné produkty nebyly nalezeny.
+        </div>
     </div>
 </div>
 <script src="{$basePath}/js/main.js"></script>

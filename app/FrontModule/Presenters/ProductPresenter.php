@@ -54,6 +54,9 @@ class ProductPresenter extends BasePresenter {
         } else {
             $whereArr['order'] = 'name';
         }
+        if (isset($filter['name'])) {
+            $whereArr['name'] = $filter['name'];
+        }
         if (!empty($filter['categories'])) {
             $whereArr['categories'] = $filter['categories'];
         }

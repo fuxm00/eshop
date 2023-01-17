@@ -37,6 +37,8 @@ class ProductsFilterForm extends Form {
         };
     }
 
+    $this->addText('name', 'Název produktu');
+
     $allCategories = [];
     foreach ($this->categoriesFacade->findCategories() as $category) {
         $allCategories[$category->categoryId] = $category->title;
