@@ -13,3 +13,15 @@
 .cart-total-price {
     font-weight: bold;
 }
+
+.available {
+    color: green;
+    padding: 0;
+    margin: 0;
+}
+
+.not-available {
+    color: red;
+    padding: 0;
+    margin: 0;
+}

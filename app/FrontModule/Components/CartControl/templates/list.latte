@@ -24,6 +24,13 @@
                         <img class="cart-product-currency-img" src="{$basePath}/img/emerald.png" alt="priceImg" />
                     </td>
                     <td>
+                        {if $item->product->available}
+                            <p class="available">skladem</p>
+                            {else}
+                            <p class="not-available">není skladem</p>
+                        {/if}
+                    </td>
+                    <td>
                         <a href="{link remove! $item->cartItemId}" class="ajax">odebrat</a>
                     </td>
                 </tr>
@@ -38,6 +45,7 @@
                     <img class="cart-product-currency-img" src="{$basePath}/img/emerald.png" alt="priceImg" />
                     celkem
                 </td>
+                <td/>
                 <td/>
             </tr>
 
