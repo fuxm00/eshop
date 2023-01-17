@@ -63,7 +63,7 @@ class ProductPresenter extends BasePresenter {
         }
 
         if ($this->productsFacade->deleteProduct($product)) {
-            $this->flashMessage('Kategorie byla smazána.');
+            $this->flashMessage('Produkt byl smazán.');
         } else {
             $this->flashMessage('Tento produkt není možné smazat.', 'error');
         }

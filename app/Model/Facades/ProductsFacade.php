@@ -64,11 +64,43 @@ class ProductsFacade {
         }
     }
 
+    //Volat, pokud jsou potřeba hromadně smazat obrázky nepoužívaných produktů
+    public function deleteUnusedProductImages(): void {
+        $products = $this->findProducts();
+        $productImages = glob(__DIR__.'/../../../www/img/products/*');
+        foreach ($productImages as $productImage) {
+            $productImageArr = explode('.', basename($productImage));
+            $productId = $productImageArr[0];
+            $imageExtension = $productImageArr[1];
+            $productFound = false;
+            foreach ($products as $product) {
+                if ($product->productId == $productId && $product->photoExtension == $imageExtension) {
+                    $productFound = true;
+                    break;
+                }
+            }
+            if (!$productFound) {
+                unlink(__DIR__.'/../../../www/img/products/'.$productId.'.'.$imageExtension);
+            }
+        }
+    }
+
     public function deleteProduct(Product $product): bool {
         try {
-            return (bool)$this->productsRepository->delete($product);
+            $productImage = __DIR__.'/../../../www/img/products/'.$product->productId.'.'.$product->photoExtension;
+            $result = (bool)$this->productsRepository->delete($product);
+            if ($result) {
+                $this->deleteProductImage($productImage);
+            }
+            return $result;
         } catch (\Exception $e) {
             return false;
+        }
+    }
+
+    private function deleteProductImage(string $productImage): void {
+        if (file_exists($productImage)) {
+            unlink($productImage);
         }
     }
 
