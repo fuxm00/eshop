@@ -61,6 +61,7 @@ class ProductsFacade {
             $fileUpload->move(__DIR__.'/../../../www/img/products/'.$product->productId.'.'.$fileExtension);
             $product->photoExtension = $fileExtension;
             $this->saveProduct($product);
+            $this->deleteUnusedProductImages();
         }
     }
 
