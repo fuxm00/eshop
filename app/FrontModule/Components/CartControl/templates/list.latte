@@ -4,7 +4,8 @@
     {if empty($cart->items)}
         košík je prázdný
     {else}
-        <table class="table">
+        <div class="table-container">
+        <table class="table" style="min-width: 500px">
 
             {foreach $cart->items as $item}
                 <tr>
@@ -48,7 +49,7 @@
                 </td>
                 <td/>
             </tr>
-
         </table>
+        </div>
     {/if}
 </div>

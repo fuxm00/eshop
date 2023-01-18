@@ -21,6 +21,7 @@ use Dibi\DateTime;
  * @property string $state = 'pending'
  * @property string $name
  * @property User $user m:hasOne(user_id)
+ * @property ProductOrder[] $productOrders m:belongsToMany(purchase_order_id)
  */
 
 class PurchaseOrder extends Entity implements \Nette\Security\Resource {

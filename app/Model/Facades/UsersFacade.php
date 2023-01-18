@@ -138,7 +138,6 @@ class UsersFacade{
         'zip'=>$user->zip,
         'telNumber'=>$user->telNumber,
         'addressNumber'=>$user->addressNumber,
-        'purchaseOrders'=>$user->purchaseOrders
     ]);
   }
 

@@ -150,3 +150,30 @@ nav {
     width: 1rem;
 }
 
+.table td.order-expand {
+    background-color: var(--defaultGreen);
+    color: white;
+    border-radius: 5px;
+    outline: none;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    text-align: center;
+}
+
+.expanded-row {
+    display: none;
+}
+
+.expanded-row.open {
+    display: table-row;
+}
+
+.table-container {
+    max-width: 100%;
+    overflow: auto;
+}
+
+.table-container .table {
+    min-width: 660px;
+}
+

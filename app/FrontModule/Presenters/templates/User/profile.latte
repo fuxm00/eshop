@@ -1,40 +1,82 @@
+{varType \App\Model\Entities\PurchaseOrder[] $purchaseOrders}
+
 {block content}
 <div class="container">
     <h1 n:block="title">Uživatel {$user->identity->name}</h1>
 
     {control userDetailsForm}
 
-    <p>
+    <h3>
         Historie objednávek
-    </p>
-    {if empty($user->identity->purchaseOrders)}
+    </h3>
+    {if empty($purchaseOrders)}
         <p>
             Nemáte ještě žádné objednávky.
         </p>
     {else}
-        {foreach $user->identity->purchaseOrders as $purchaseOrder}
-            <div>
-                <p>
-                    Objednávka č. {$purchaseOrder->purchaseOrderId}
-                </p>
-                <p>
-                    Datum objednání: {$purchaseOrder->createdAt|date:'d.m.Y'}
-                </p>
-                <p>
-                    Celková cena: {$purchaseOrder->total} Emeraldů
-                </p>
-                <p>
-                    Stav objednávky: {if $purchaseOrder->state == 'pending'}
-                        Čeká na zpracování
-                    {elseif $purchaseOrder->state == 'sent'}
-                        Odesláno
-                    {elseif $purchaseOrder->state == 'delivered'}
-                        Doručeno
-                    {elseif $purchaseOrder->state == 'canceled'}
-                        Zrušeno
-                    {/if}
-                </p>
-            </div>
-        {/foreach}
+        <div class="table-container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Číslo objednávky</th>
+                    <th scope="col">Datum objednání</th>
+                    <th scope="col">Celková cena</th>
+                    <th scope="col">Stav objednávky</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {foreach $purchaseOrders as $purchaseOrder}
+                <tr>
+                    <td>{$purchaseOrder->purchaseOrderId}</td>
+                    <td>{$purchaseOrder->createdAt|date:'d.m.Y'}</td>
+                    <td>{$purchaseOrder->total} <img src="{$basePath}/img/emerald.png" alt="priceImg" width="16px" /> </td>
+                    <td>
+                        {if $purchaseOrder->state == 'pending'}
+                            Čeká na zpracování
+                        {elseif $purchaseOrder->state == 'sent'}
+                            Odesláno
+                        {elseif $purchaseOrder->state == 'delivered'}
+                            Doručeno
+                        {elseif $purchaseOrder->state == 'canceled'}
+                            Zrušeno
+                        {/if}
+                    </td>
+                    <td class="order-expand" style="font-weight: bold">
+                        ⇩
+                    </td>
+                </tr>
+                <tr class="expanded-row">
+                    <td colspan="5">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col" style="width: 40%">Název</th>
+                                    <th scope="col" style="width: 30%">Počet</th>
+                                    <th scope="col" style="width: 30%">Cena</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {foreach $purchaseOrder->productOrders as $purchaseOrderItem}
+                                <tr>
+                                    <td>
+                                        <a href="{plink Product:show url=>$purchaseOrderItem->product->url}">
+                                            {$purchaseOrderItem->product->name}
+                                        </a>
+                                    </td>
+                                    <td>{$purchaseOrderItem->quantity}</td>
+                                    <td>{$purchaseOrderItem->price} <img src="{$basePath}/img/emerald.png" alt="priceImg" width="16px" /></td>
+                                </tr>
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            {/foreach}
+            </tbody>
+        </table>
+        </div>
+        <script src="{$basePath}/js/profile.js"></script>
     {/if}
 </div>
+{/block}

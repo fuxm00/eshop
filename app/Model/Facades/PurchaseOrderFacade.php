@@ -37,4 +37,8 @@ class PurchaseOrderFacade {
         $purchaseOrder->state = $state;
         return $this->savePurchaseOrder($purchaseOrder);
     }
+
+    public function getPurchaseOrdersByUser(int $userId): array {
+        return $this->purchaseOrderRepository->findAllBy(['user_id' => $userId, 'order' => 'created_at DESC']);
+    }
 }

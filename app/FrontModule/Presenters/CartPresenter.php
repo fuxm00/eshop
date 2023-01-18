@@ -89,15 +89,6 @@ class CartPresenter extends BasePresenter {
             $this->getSession()->getSection('cart')->remove('cartId');
             $this->cartFacade->deleteCartById($cartId);
 
-            if ($this->user->isLoggedIn()) {
-                try {
-                    $this->user->getIdentity()->purchaseOrders = $this
-                        ->usersFacade
-                        ->getUserByEmail($this->user->getIdentity()->email)
-                        ->purchaseOrders;
-                } catch (\Exception $e) { }
-            }
-
             $this->flashMessage('Objednávka odeslána.');
             $this->redirect('Product:list');
         };

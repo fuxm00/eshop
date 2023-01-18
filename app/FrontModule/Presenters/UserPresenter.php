@@ -13,6 +13,7 @@ use App\FrontModule\Components\UserLoginForm\UserLoginFormFactory;
 use App\FrontModule\Components\UserRegistrationForm\UserRegistrationForm;
 use App\FrontModule\Components\UserRegistrationForm\UserRegistrationFormFactory;
 use App\Model\Api\Facebook\FacebookApi;
+use App\Model\Facades\PurchaseOrderFacade;
 use App\Model\Facades\UsersFacade;
 use Nette;
 use Nette\Application\BadRequestException;
@@ -28,6 +29,7 @@ class UserPresenter extends BasePresenter{
   public string $backlink = '';
 
   private UsersFacade $usersFacade;
+  private PurchaseOrderFacade $purchaseOrderFacade;
   private UserLoginFormFactory $userLoginFormFactory;
   private UserRegistrationFormFactory $userRegistrationFormFactory;
   private ForgottenPasswordFormFactory $forgottenPasswordFormFactory;
@@ -130,6 +132,10 @@ class UserPresenter extends BasePresenter{
       $this->redirect('Product:list');
       #endregion odkaz již není platný
     }
+  }
+
+  public function renderProfile() {
+      $this->template->purchaseOrders = $this->purchaseOrderFacade->getPurchaseOrdersByUser($this->user->getId());
   }
 
   /**
@@ -308,6 +314,10 @@ class UserPresenter extends BasePresenter{
 
   public function injectUserDetailsFormFactory(UserDetailsFormFactory $userDetailsFormFactory): void {
     $this->userDetailsFormFactory=$userDetailsFormFactory;
+  }
+
+  public function injectPurchaseOrderFacade(PurchaseOrderFacade $purchaseOrderFacade): void {
+    $this->purchaseOrderFacade = $purchaseOrderFacade;
   }
   #endregion injections
 }
