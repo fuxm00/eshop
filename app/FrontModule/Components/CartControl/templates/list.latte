@@ -4,7 +4,7 @@
     {if empty($cart->items)}
         košík je prázdný
     {else}
-        <table class="table table-hover">
+        <table class="table">
 
             {foreach $cart->items as $item}
                 <tr>
@@ -20,15 +20,15 @@
                         {else} <td/>
                     {/if}
                     <td>
-                        {$item->count * $item->product->price}
-                        <img class="cart-product-currency-img" src="{$basePath}/img/emerald.png" alt="priceImg" />
-                    </td>
-                    <td>
                         {if $item->product->available}
                             <p class="available">skladem</p>
-                            {else}
+                        {else}
                             <p class="not-available">není skladem</p>
                         {/if}
+                    </td>
+                    <td>
+                        {$item->count * $item->product->price}
+                        <img class="cart-product-currency-img" src="{$basePath}/img/emerald.png" alt="priceImg" />
                     </td>
                     <td>
                         <a href="{link remove! $item->cartItemId}" class="ajax">odebrat</a>
@@ -40,12 +40,12 @@
                 <td/>
                 <td/>
                 <td/>
+                <td/>
                 <td class="cart-total-price">
                     {$cart->getTotalPrice()}
                     <img class="cart-product-currency-img" src="{$basePath}/img/emerald.png" alt="priceImg" />
                     celkem
                 </td>
-                <td/>
                 <td/>
             </tr>
 

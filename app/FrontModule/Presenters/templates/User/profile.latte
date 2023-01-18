@@ -1,10 +1,9 @@
 {block content}
+<div class="container">
+    <h1 n:block="title">Uživatel {$user->identity->name}</h1>
 
-<h1 n:block="title">Uživatel {$user->identity->name}</h1>
+    {control userDetailsForm}
 
-{control userDetailsForm}
-
-<div>
     <p>
         Historie objednávek
     </p>

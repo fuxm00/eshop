@@ -64,6 +64,7 @@ class ProductPresenter extends BasePresenter {
             $whereArr['onlyAvailable'] = true;
         }
         $this->template->products = $this->productsFacade->findProducts($whereArr);
+        $this->template->isFilterOpen = !empty($filter);
     }
 
     protected function createComponentProductsFilterForm(): ProductsFilterForm {

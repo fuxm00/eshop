@@ -199,6 +199,10 @@
         background-color: grey;
         align-self: end;
     }
+
+    .products-filter--remove {
+        top: 0;
+    }
 }
 
 @media (max-width: 720px) {

@@ -1,8 +1,9 @@
 {varType App\Model\Entities\Product[] $products}
+{varType bool $isFilterOpen}
 {block content}
 
 <div class="products-layout">
-    <div class="products-filter">
+    <div class="products-filter {if $isFilterOpen}open{/if}">
         <h3>Filtery</h3>
         {control productsFilterForm}
     </div>

@@ -39,6 +39,8 @@
     outline: none;
     border: none;
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+    min-width: 100px;
+    font-weight: 600;
 }
 
 .green-btn:hover, .green-btn:focus {
