@@ -89,7 +89,23 @@ class CartPresenter extends BasePresenter {
             $this->getSession()->getSection('cart')->remove('cartId');
             $this->cartFacade->deleteCartById($cartId);
 
-            $this->flashMessage('Objednávka odeslána.');
+            try {
+                $purchaseOrder = $this->purchaseOrderFacade->getPurchaseOrder($purchaseOrder->purchaseOrderId);
+                $mail = new \Nette\Mail\Message();
+                $mail->setFrom('mineshop@vse.cz', 'MineShop')
+                    ->addTo($purchaseOrder->mail, $purchaseOrder->name)
+                    ->setSubject('Objednávka číslo ' . $purchaseOrder->purchaseOrderId)
+                    ->setHtmlBody($this->template->renderToString(__DIR__ . '/templates/Cart/email.latte',
+                        ['order' => $purchaseOrder]
+                    ));
+                $mailer = new \Nette\Mail\SendmailMailer;
+                $mailer->send($mail);
+            } catch (\Exception $e) {
+                $this->flashMessage('Objednávka odeslána, ale nepodařilo se odeslat potvrzovací email.', 'warning');
+                $this->redirect('Product:list');
+            }
+
+            $this->flashMessage('Objednávka odeslána. Na váš mail byl odeslán potvrzovací email.', 'success');
             $this->redirect('Product:list');
         };
 
