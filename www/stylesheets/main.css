@@ -56,7 +56,13 @@
     color: white;
     background-color: var(--defaultGreen);
     width: fit-content;
-    margin-right: 100px;
+    margin-right: 20px;
+}
+
+@media all and (min-width: 650px) {
+    .backButton {
+        margin-right: 100px;
+    }
 }
 
 

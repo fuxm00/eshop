@@ -1,11 +1,20 @@
 .product-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 150px;
+    display: block;
+    margin: 0 1rem;
+}
+
+@media all and (min-width: 1200px) {
+    .product-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 150px;
+        margin: 0 6rem;
+    }
 }
 
 .image-container {
-    margin-left: 100px;
+    max-width: 35rem;
+    margin: 1rem auto;
 }
 
 .product-image {
@@ -16,7 +25,8 @@
 }
 
 .text-container {
-    margin-right: 100px;
+    max-width: 35rem;
+    margin: 1rem auto;
 }
 
 .cart-layout {
@@ -42,6 +52,3 @@
     font-size: 1.25rem;
     font-weight: 600;
 }
-
-
-
