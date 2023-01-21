@@ -24,6 +24,14 @@
     max-width: 100%;
 }
 
+@media all and (min-width: 1200px) {
+    .product-image {
+        min-width: 500px;
+    }
+}
+
+
+
 .text-container {
     max-width: 35rem;
     margin: 1rem auto;
