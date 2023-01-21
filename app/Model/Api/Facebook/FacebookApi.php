@@ -11,8 +11,7 @@ use Facebook\Facebook;
 class FacebookApi{
   private string $appId;
   private string $appSecret;
-
-  private \Facebook\Facebook $facebook;
+  private $facebook;
 
 
   public function __construct(string $appId, string $appSecret){

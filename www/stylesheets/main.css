@@ -60,6 +60,25 @@
     transition: all 0.3s ease 0s ;
 }
 
+.btn-facebook {
+    padding: 0.3rem 0.5rem;
+    background-color: dodgerblue;
+    color: white;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+    min-width: 100px;
+    font-weight: 600;
+}
+
+.btn-facebook:hover, .btn-facebook:focus {
+    background-color: royalblue;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease 0s ;
+}
+
 .backButton {
     display: block;
     margin-left: auto;

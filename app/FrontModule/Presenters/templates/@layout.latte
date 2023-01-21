@@ -37,6 +37,9 @@
 		</h1>
 		<div class="login-and-cart-layout">
 			<div>{control userLogin}</div>
+			{if !$user->isLoggedIn()}
+				<a href="{link User:facebookLogin}" class="btn btn-facebook">přihlásit přes facebook</a>
+			{/if}
 			<div n:snippet="cart">{control cart}</div>
 		</div>
 	</div>
