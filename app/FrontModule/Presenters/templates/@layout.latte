@@ -26,15 +26,28 @@
 
 <header class="navbar navbar-light bg-light mb-4 navbar-layout">
 	<div class="header-container">
-		<h1 class="h2 mt-1 ">
-			<a href="{plink Product:list}" class="text-dark main-link">
-				<img src="/~fuxm00/eshop/img/logo.png" height="70px" width="70px">
-				<div class="company-logo-name">
-					<div>MINE</div>
-					<div>SHOP.CZ</div>
-				</div>
-			</a>
-		</h1>
+		<div class="hamburger-and-logo-wrapper">
+			<input type="checkbox" class="toggle-hamburger"/>
+			<div class="hamburger"/>
+			<ul class="hamburger-links">
+				<li><a href="{plink User:login}">přihlásit se</a></li>
+				<li><a href="{link User:facebookLogin}">přihlásit přes facebook</a></li>
+				<li><a n:href="Product:list">domů</a></li>
+				<li><a href="#">o nás</a></li>
+				<li><a href="#">kontakt</a></li>
+				<li><a href="#">slevy</a></li>
+				<li><a href="#">premium</a></li>
+			</ul>
+			<h1 class="h2 mt-1 ">
+				<a href="{plink Product:list}" class="text-dark main-link">
+					<img src="/~fuxm00/eshop/img/logo.png" height="70px" width="70px">
+					<div class="company-logo-name">
+						<div>MINE</div>
+						<div>SHOP.CZ</div>
+					</div>
+				</a>
+			</h1>
+		</div>
 		<div class="login-and-cart-layout">
 			<div>{control userLogin}</div>
 			{if !$user->isLoggedIn()}
