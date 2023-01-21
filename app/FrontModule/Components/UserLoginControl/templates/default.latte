@@ -3,7 +3,7 @@
     {if $user->isLoggedIn()}
       <a style="font-weight: bold" href="{plink User:profile}">{$user->identity->name}</a>
       -
-      <a href="{link logout!}">odhlásit se</a>
+      <a href="{link logout!}">odhlásit</a>
     {else}
       <a href="{link login!}" class="green-btn">přihlásit se</a>
     {/if}
