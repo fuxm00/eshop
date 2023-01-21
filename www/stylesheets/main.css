@@ -156,6 +156,12 @@
     font-weight: 600;
 }
 
+@media screen and (max-width: 600px) {
+    .btn-facebook {
+        display: none;
+    }
+}
+
 .btn-facebook:hover, .btn-facebook:focus {
     background-color: royalblue;
     color: white;
