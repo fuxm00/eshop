@@ -173,6 +173,7 @@
     }
 
     #form-filter-open {
+        color: white;
         display: block;
         padding: 5px 10px;
         cursor: pointer;
