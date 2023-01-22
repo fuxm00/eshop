@@ -31,16 +31,17 @@
 			<div class="hamburger"/>
 			<ul class="hamburger-links">
 				{if $user->isLoggedIn()}
-					<li><a href="{plink User:logout}">odhlásit se</a></li>
+					<li><a style="font-weight: bold" href="{plink User:profile}">{$user->identity->name}</a></li>
+					<li><a href="{plink User:logout}">Odhlásit se</a></li>
 				{else}
-					<li><a href="{plink User:login}">přihlásit se</a></li>
-					<li><a href="{plink User:facebookLogin}">přihlásit přes facebook</a></li>
+					<li><a href="{plink User:login}">Přihlásit se</a></li>
+					<li><a href="{plink User:facebookLogin}">Přihlásit přes facebook</a></li>
 				{/if}
-				<li><a n:href="Product:list">domů</a></li>
-				<li><a href="#">o nás</a></li>
-				<li><a href="#">kontakt</a></li>
-				<li><a href="#">slevy</a></li>
-				<li><a href="#">premium</a></li>
+				<li><a n:href="Product:list">Domů</a></li>
+				<li><a href="#">O nás</a></li>
+				<li><a href="#">Kontakt</a></li>
+				<li><a href="#">Slevy</a></li>
+				<li><a href="#">Premium</a></li>
 			</ul>
 			<h1 class="h2 mt-1 logo">
 				<a href="{plink Product:list}" class="text-dark main-link">
@@ -53,10 +54,12 @@
 			</h1>
 		</div>
 		<div class="login-and-cart-layout">
-			<div>{control userLogin}</div>
-			{if !$user->isLoggedIn()}
-				<a href="{link User:facebookLogin}" class="btn btn-facebook">přihlásit přes facebook</a>
-			{/if}
+			<div class="header-user-login">
+				<div>{control userLogin}</div>
+				{if !$user->isLoggedIn()}
+					<a href="{link User:facebookLogin}" class="btn btn-facebook">přihlásit přes facebook</a>
+				{/if}
+			</div>
 			<div n:snippet="cart">{control cart}</div>
 		</div>
 	</div>

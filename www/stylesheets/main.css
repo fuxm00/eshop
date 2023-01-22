@@ -78,6 +78,7 @@
    list-style-type: none;
    width: 100%;
    min-height: 3rem;
+    min-width: 200px;
 }
 
 .hamburger-links li a {
@@ -112,10 +113,6 @@
 }
 
 @media all and (max-width: 720px) {
-
-    .company-logo-name {
-        display: none;
-    }
 
     .hamburger,
     .toggle-hamburger {
@@ -179,8 +176,14 @@
     font-weight: 600;
 }
 
-@media screen and (max-width: 600px) {
-    .btn-facebook {
+.header-user-login {
+    display: flex;
+    gap: 0 32px;
+    align-items: center;
+}
+
+@media screen and (max-width: 720px) {
+    .header-user-login {
         display: none;
     }
 }
