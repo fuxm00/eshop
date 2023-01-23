@@ -8,7 +8,7 @@ class OrderPresenter extends BasePresenter {
     private PurchaseOrderFacade $purchaseOrderFacade;
 
     public function renderDefault(): void {
-        $this->template->purchaseOrders = $this->purchaseOrderFacade->findPurchaseOrders();
+        $this->template->purchaseOrders = $this->purchaseOrderFacade->findPurchaseOrders(['order' => 'created_at DESC']);
     }
 
     public function actionChangeState(int $orderId, string $newState): void {
