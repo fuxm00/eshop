@@ -3,17 +3,19 @@
 {block content}
 <h1 n:block="title">Správa objednávek</h1>
 {if !empty($purchaseOrders)}
-    <table class="table table-hover mt-4">
-        <thead>
+    <div class="table-container">
+        <table class="table">
+            <thead>
             <tr>
                 <th scope="col">Číslo objednávky</th>
                 <th scope="col">Datum objednání</th>
                 <th scope="col">Jméno</th>
                 <th scope="col">Stav</th>
                 <th scope="col">Změnit stav</th>
+                <th/>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             {foreach $purchaseOrders as $purchaseOrder}
                 <tr>
                     <td>{$purchaseOrder->purchaseOrderId}</td>
@@ -41,10 +43,41 @@
                             <a href="{link changeState $purchaseOrder->purchaseOrderId, 'canceled'}" class="btn btn-danger">Zrušeno</a>
                         {/if}
                     </td>
+                    <td class="order-expand" style="font-weight: bold">
+                        ⇩
+                    </td>
+                </tr>
+                <tr class="expanded-row">
+                    <td colspan="5">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col" style="width: 40%">Název</th>
+                                <th scope="col" style="width: 30%">Počet</th>
+                                <th scope="col" style="width: 30%">Cena</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {foreach $purchaseOrder->productOrders as $purchaseOrderItem}
+                                <tr>
+                                    <td>
+                                        <a href="{plink Product:show url=>$purchaseOrderItem->product->url}">
+                                            {$purchaseOrderItem->product->name}
+                                        </a>
+                                    </td>
+                                    <td>{$purchaseOrderItem->quantity}</td>
+                                    <td>{$purchaseOrderItem->price} <img src="{$basePath}/img/emerald.png" alt="priceImg" width="16px" /></td>
+                                </tr>
+                            {/foreach}
+                            </tbody>
+                        </table>
+                    </td>
                 </tr>
             {/foreach}
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
+    <script src="{$basePath}/js/profile.js"></script>
 {else}
     <p class="text-muted">Žádné objednávky nebyly nalezeny.</p>
 {/if}
